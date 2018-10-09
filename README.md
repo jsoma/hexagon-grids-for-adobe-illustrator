@@ -81,7 +81,7 @@ svg.html(imported.html())
 // Use d3 to attach the datapoint to the group.
 // e.g. d3.select("#" + d.abbr) => d3.select("#CA")
 datapoints.forEach(d => {
-  svg.select("#" + d.abbr)
+  svg.select("#" + d.state)
     .attr('class', 'hex-group')
     .each(function() {
       d3.select(this).datum(d)
