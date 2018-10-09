@@ -14,11 +14,9 @@ Draw a hexagon of the proper size using the Polygon tool (it's under shapes). Ho
 
 ![](screenshots/polygon-tool.png)
 
-> If you'd like to rotate your hexagon to make the pointy side point up, select your hexagon and use **Object > Transform > Rotate**. Pick **90** as your rotation amount.
+**If you'd like to rotate** your hexagon to make the pointy side point up, select your hexagon and use **Object > Transform > Rotate**. Pick **90** as your rotation amount.
 
-![](screenshots/six-sides.png)
-
-If your hexagon has too many sides, use the **Shapes** menu to kick it up/down to 6.
+**If your hexagon has too many sides,** use the **Shapes** menu to kick it up/down to 6.
 
 ![](screenshots/six-sides.png)
 
