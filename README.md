@@ -45,6 +45,8 @@ If you want to put things into groups (which maybe you do, it helps for coloring
 
 I'm using this to build hex-based cartograms in D3, because it seems nice to have control over my shapes! If you'd like to do the same, **save your file as an SVG**.
 
+> See a demo of this technique [right here](http://jsoma.github.io/hex-grids-for-adobe-illustrator).
+
 Maybe you have a CSV file full of data to associate with each group of hexagons? Make sure you have a column that matches with your **layer names**. In this case, `state` is the same as the layer name.
 
 ```
