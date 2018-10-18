@@ -113,11 +113,11 @@
                 return node.getAttribute('points').trim()
               })
               .map(function(pointString) {
-                return pointString.split(" ")
-                  .map(function(pair) {
-                    var coords = pair.split(",")
-                    return [+coords[0], +coords[1]]
-                  })
+                var regex = /(([\d\.]+)[ ,]([\d\.]+))/g
+                return pointString.match(regex).map(function(pair) {
+                  var coords = pair.split(/[ ,]/)
+                  return [+coords[0], +coords[1]]
+                })
               })
               .map(function(coords) {
                 coords.push(coords[0])

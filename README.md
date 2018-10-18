@@ -105,6 +105,8 @@ svg.selectAll('.hex-group')
 What does that even look like? Look at [a demo](http://jsoma.github.io/hexagon-grids-for-adobe-illustrator).
 
 > Yes, you can also associate your data with the hexagons themselves so you don't have to do the `.each` thing. If you want to draw outlines and stuff, though, this technique works a lot better.
+>
+> If you're using this with `npm`, you'll want to `npm install @turf/turf polylabel`
 
 ## Installation instructions
 
