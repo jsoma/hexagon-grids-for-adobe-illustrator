@@ -38,38 +38,30 @@ function makeHexGrid() {
     rowStep = -measurements.size * 2 * 2;
     colStep = measurements.size * 1.73 * 2;
   }
-  var offset = 1.73 * -measurements.size * 2;
 
   var tooFarRight = false;
   var tooFarDown = false;
-  var previouslyTooFarRight = false;
+  var nextPosition;
 
   moveHexToTopLeftCorner(hex, measurements);
 
   for (var colCount = 0; colCount <= cols; colCount++) {
     for (var rowCount = 0; rowCount <= rows; rowCount++) {
-      previouslyTooFarRight = false;
-      var nextPosition = getNextPosition(orientation, colCount, colStep, rowCount, rowStep);
-      var added = createNewHex(hex, nextPosition);
-      // Let's see if it's off of the artboard
-      tooFarRight = Math.abs(added.left) > doc.width;
-      tooFarDown = Math.abs(added.top) > doc.height;
+      nextPosition = getNextPosition(orientation, colCount, colStep, rowCount, rowStep);
+      tooFarRight = Math.abs(nextPosition.x) > doc.width;
+      tooFarDown = Math.abs(nextPosition.y) > doc.height;
+
+      createNewHex(hex, nextPosition);
+
       if (tooFarDown) {
-        // if it is, remove the hexagon we just added and exit the loop
-        added.remove();
         break;
       }
-      if (tooFarRight)
-        added.remove();
-      if (tooFarRight && previouslyTooFarRight)
-        break;
     }
-    // If two in a row are too far right, time to escape
-    if (tooFarRight && previouslyTooFarRight) {
+    if (tooFarRight) {
       break;
     }
   }
-  // Remove the original hexagon
+
   hex.remove();
 }
 
