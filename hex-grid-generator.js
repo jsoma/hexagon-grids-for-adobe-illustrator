@@ -63,22 +63,7 @@ var makeHexGrid = function () {
   for (var colCount = 0; colCount <= cols; colCount++) {
     for (var rowCount = 0; rowCount <= rows; rowCount++) {
       previouslyTooFarRight = false;
-      var added = hex.duplicate();
-      added.fillColor = hex.fillColor;
-      added.strokeColor = hex.strokeColor;
-      added.opacity = 75.0;
-      added.strokeWidth = 0.5;
-      if (orientation == "vertical") {
-        added.translate(
-          colCount * colStep + (rowCount % 2 == 1 ? colStep * 0.5 : 0),
-          rowCount * rowStep
-        );
-      } else {
-        added.translate(
-          colCount * colStep,
-          rowCount * rowStep + (colCount % 2 == 1 ? rowStep * 0.5 : 0)
-        );
-      }
+      var added = createNewHex(hex, orientation, colCount, colStep, rowCount, rowStep);
       // Let's see if it's off of the artboard
       tooFarRight = Math.abs(added.left) > doc.width;
       tooFarDown = Math.abs(added.top) > doc.height;
@@ -100,3 +85,23 @@ var makeHexGrid = function () {
 };
 
 makeHexGrid();
+function createNewHex(hex, orientation, colCount, colStep, rowCount, rowStep) {
+  var added = hex.duplicate();
+  added.fillColor = hex.fillColor;
+  added.strokeColor = hex.strokeColor;
+  added.opacity = 75.0;
+  added.strokeWidth = 0.5;
+  if (orientation == "vertical") {
+    added.translate(
+      colCount * colStep + (rowCount % 2 == 1 ? colStep * 0.5 : 0),
+      rowCount * rowStep
+    );
+  } else {
+    added.translate(
+      colCount * colStep,
+      rowCount * rowStep + (colCount % 2 == 1 ? rowStep * 0.5 : 0)
+    );
+  }
+  return added;
+}
+
