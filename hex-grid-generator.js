@@ -28,7 +28,6 @@ var makeHexGrid = function () {
     return;
   }
 
-  // If yes, we'll just assume it's a hexagon.
   var hex = doc.selection[0];
   var hexHeight = hex.height / 2;
   var hexWidth = hex.width / 2;
@@ -39,14 +38,11 @@ var makeHexGrid = function () {
 
   hex.translate(-hex.left - hexWidth, -hex.top + hexHeight);
 
-  // This is all horrifying magic numbers
-  // I am so sorry
-  // I blame the terrible environment I had to work in
   var size = hexHeight / 2;
   var rows = doc.height / (size * 1);
   var cols = doc.width / (size * 3);
-
   var rowStep, colStep;
+
   if (orientation == "vertical") {
     rowStep = -size * 1.5 * 2;
     colStep = size * 1.73 * 2;
