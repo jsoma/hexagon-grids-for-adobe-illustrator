@@ -83,7 +83,7 @@ function warnUser(message) {
 }
 
 function moveHexToTopLeftCorner(hex, measurements) {
-  hex.translate(-hex.left - measurements.width, -hex.top + measurements.height);
+  hex.position = [-measurements.width, measurements.height]
 }
 
 function getOrientation(hexHeight, hexWidth) {
