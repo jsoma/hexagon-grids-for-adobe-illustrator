@@ -1,23 +1,23 @@
 var doc = app.activeDocument;
 
-var IsSingleItemSelected = function (selection) {
+function IsSingleItemSelected(selection) {
   return selection.length === 1;
-};
+}
 
-var IsAHexagonSelected = function (selection) {
+function IsAHexagonSelected(selection) {
   return selection[0].pathPoints.length === 6;
-};
+}
 
-var warnUser = function (message) {
+function warnUser(message) {
   var text = doc.textFrames.add();
   text.move(doc, ElementPlacement.PLACEATBEGINNING);
   text.contents = message;
   text.left = 40;
   text.top = -100;
   text.textRange.characterAttributes.size = 30;
-};
+}
 
-var makeHexGrid = function () {
+function makeHexGrid() {
   if (!IsSingleItemSelected(doc.selection)) {
     warnUser("Select exactly one path");
     return;
@@ -32,6 +32,7 @@ var makeHexGrid = function () {
   var hexHeight = hex.height / 2;
   var hexWidth = hex.width / 2;
   var orientation = "horizontal";
+
   if (hexHeight > hexWidth) {
     orientation = "vertical";
   }
@@ -68,8 +69,10 @@ var makeHexGrid = function () {
         added.remove();
         break;
       }
-      if (tooFarRight) added.remove();
-      if (tooFarRight && previouslyTooFarRight) break;
+      if (tooFarRight)
+        added.remove();
+      if (tooFarRight && previouslyTooFarRight)
+        break;
     }
     // If two in a row are too far right, time to escape
     if (tooFarRight && previouslyTooFarRight) {
@@ -78,9 +81,7 @@ var makeHexGrid = function () {
   }
   // Remove the original hexagon
   hex.remove();
-};
-
-makeHexGrid();
+}
 
 function createNewHex(hex, orientation, colCount, colStep, rowCount, rowStep) {
   var added = hex.duplicate();
@@ -110,3 +111,4 @@ function setPropertiesOfNewHex(added, hex) {
   added.strokeWidth = hex.strokeWidth;
 }
 
+makeHexGrid();
