@@ -65,18 +65,6 @@ function makeHexGrid() {
   hex.remove();
 }
 
-function moveHexToTopLeftCorner(hex, measurements) {
-  hex.translate(-hex.left - measurements.width, -hex.top + measurements.height);
-}
-
-function getOrientation(hexHeight, hexWidth) {
-  var orientation = "horizontal";
-  if (hexHeight > hexWidth) {
-    orientation = "vertical";
-  }
-  return orientation;
-}
-
 function IsSingleItemSelected(selection) {
   return selection.length === 1;
 }
@@ -92,6 +80,18 @@ function warnUser(message) {
   text.left = 40;
   text.top = -100;
   text.textRange.characterAttributes.size = 30;
+}
+
+function moveHexToTopLeftCorner(hex, measurements) {
+  hex.translate(-hex.left - measurements.width, -hex.top + measurements.height);
+}
+
+function getOrientation(hexHeight, hexWidth) {
+  var orientation = "horizontal";
+  if (hexHeight > hexWidth) {
+    orientation = "vertical";
+  }
+  return orientation;
 }
 
 function createNewHex(hex, nextPosition) {
