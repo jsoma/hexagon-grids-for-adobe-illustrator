@@ -1,22 +1,41 @@
 var doc = app.activeDocument;
 
-var IsAHexagonSelected = function (selection) {
+var IsSingleItemSelected = function (selection) {
   return selection.length === 1;
 };
 
-var warnUser = function () {
+var IsAHexagonSelected = function (selection) {
+  return selection[0].pathPoints.length === 6;
+};
+
+var warnUserNothingSelected = function () {
+    var text = doc.textFrames.add();
+    text.move(doc, ElementPlacement.PLACEATBEGINNING);
+    text.contents =
+      "Select only one shape.";
+    text.left = 40;
+    text.top = -100;
+    text.textRange.characterAttributes.size = 30;
+}
+
+var warnUserNotHexagon = function () {
   var text = doc.textFrames.add();
   text.move(doc, ElementPlacement.PLACEATBEGINNING);
   text.contents =
-    "Draw and select a single hexagon!\nHold down the shape tooland pick the\npolygon. Click and drag while holding down the shift key.\nRotate it 90 degrees if you want it pointy at the top.";
+    "The selected shape is not a hexagon";
   text.left = 40;
   text.top = -100;
   text.textRange.characterAttributes.size = 30;
 };
 
 var makeHexGrid = function () {
+  if (!IsSingleItemSelected(doc.selection)) {
+    warnUserNothingSelected()
+    return
+  }
+
   if (!IsAHexagonSelected(doc.selection)) {
-    warnUser();
+    warnUserNotHexagon();
     return;
   }
 
