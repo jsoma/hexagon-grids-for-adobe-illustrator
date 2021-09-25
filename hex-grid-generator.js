@@ -96,7 +96,6 @@ function getOrientation(hexHeight, hexWidth) {
 
 function createNewHex(hex, nextPosition) {
   var added = hex.duplicate();
-  setPropertiesOfNewHex(added, hex);
   added.translate(nextPosition.x, nextPosition.y);
   return added;
 }
@@ -113,13 +112,6 @@ function getNextPosition(orientation, currentColumn, columnXDistance, currentRow
     x: currentColumn * columnXDistance,
     y: currentRow * rowYDistance + (currentColumn % 2 == 1 ? rowYDistance * 0.5 : 0)
   };
-}
-
-function setPropertiesOfNewHex(added, hex) {
-  added.fillColor = hex.fillColor;
-  added.strokeColor = hex.strokeColor;
-  added.opacity = hex.opacity
-  added.strokeWidth = hex.strokeWidth;
 }
 
 makeHexGrid();
