@@ -16,35 +16,35 @@ function makeHexGrid() {
   var measurements = {
     height: hex.height / 2,
     width: hex.width / 2,
-  }
-  
-  var hexHeight = measurements.height;
-  var hexWidth = measurements.width;
-  
-  var orientation = "horizontal";
-  if (hexHeight > hexWidth) {
-    orientation = "vertical";
+    size: hex.height / 4,
   }
 
-  hex.translate(-hex.left - hexWidth, -hex.top + hexHeight);
+  var docMeasurements = {
+    rows: doc.height / measurements.size,
+    columns: doc.width / (measurements.size * 3)
+  }
+  
+  var orientation = getOrientation(measurements.height, measurements.width);
 
-  var size = hexHeight / 2;
-  var rows = doc.height / (size * 1);
-  var cols = doc.width / (size * 3);
+  var rows = docMeasurements.rows
+  var cols = docMeasurements.columns
+  
   var rowStep, colStep;
 
   if (orientation == "vertical") {
-    rowStep = -size * 1.5 * 2;
-    colStep = size * 1.73 * 2;
+    rowStep = -measurements.size * 1.5 * 2;
+    colStep = measurements.size * 1.73 * 2;
   } else {
-    rowStep = -size * 2 * 2;
-    colStep = size * 1.73 * 2;
+    rowStep = -measurements.size * 2 * 2;
+    colStep = measurements.size * 1.73 * 2;
   }
-  var offset = 1.73 * -size * 2;
+  var offset = 1.73 * -measurements.size * 2;
 
   var tooFarRight = false;
   var tooFarDown = false;
   var previouslyTooFarRight = false;
+
+  hex.translate(-hex.left - measurements.width, -hex.top + measurements.height);
 
   for (var colCount = 0; colCount <= cols; colCount++) {
     for (var rowCount = 0; rowCount <= rows; rowCount++) {
@@ -70,6 +70,14 @@ function makeHexGrid() {
   }
   // Remove the original hexagon
   hex.remove();
+}
+
+function getOrientation(hexHeight, hexWidth) {
+  var orientation = "horizontal";
+  if (hexHeight > hexWidth) {
+    orientation = "vertical";
+  }
+  return orientation;
 }
 
 function IsSingleItemSelected(selection) {
