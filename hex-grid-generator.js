@@ -13,17 +13,8 @@ function makeHexGrid() {
 
   var hex = doc.selection[0];
 
-  var measurements = {
-    height: hex.height / 2,
-    width: hex.width / 2,
-    size: hex.height / 4,
-  }
-
-  var docMeasurements = {
-    rows: doc.height / measurements.size,
-    columns: doc.width / (measurements.size * 3)
-  }
-  
+  var measurements = getHexMeasurements(hex)
+  var docMeasurements = getDocumentMeasurements(measurements)
   var orientation = getOrientation(measurements.height, measurements.width);
 
   var rows = docMeasurements.rows
@@ -63,6 +54,21 @@ function makeHexGrid() {
   }
 
   hex.remove();
+}
+
+function getDocumentMeasurements(measurements) {
+  return {
+    rows: doc.height / measurements.size,
+    columns: doc.width / (measurements.size * 3)
+  };
+}
+
+function getHexMeasurements(hex) {
+  return {
+    height: hex.height / 2,
+    width: hex.width / 2,
+    size: hex.height / 4,
+  };
 }
 
 function IsSingleItemSelected(selection) {
