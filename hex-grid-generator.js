@@ -45,9 +45,9 @@ function makeHexGrid() {
 
   moveHexToTopLeftCorner(hex, measurements);
 
-  for (var colCount = 0; colCount <= cols; colCount++) {
-    for (var rowCount = 0; rowCount <= rows; rowCount++) {
-      nextPosition = getNextPosition(orientation, colCount, colStep, rowCount, rowStep);
+  for (var col = 0; col <= cols; col++) {
+    for (var row = 0; row <= rows; row++) {
+      nextPosition = getNextPosition(orientation, col, colStep, row, rowStep);
       tooFarRight = Math.abs(nextPosition.x) > doc.width;
       tooFarDown = Math.abs(nextPosition.y) > doc.height;
 
@@ -101,17 +101,17 @@ function createNewHex(hex, nextPosition) {
   return added;
 }
 
-function getNextPosition(orientation, colCount, colStep, rowCount, rowStep) {
+function getNextPosition(orientation, currentColumn, columnXDistance, currentRow, rowYDistance) {
   if (orientation == "vertical") {
     return {
-      x: colCount * colStep + (rowCount % 2 == 1 ? colStep * 0.5 : 0),
-      y: rowCount * rowStep
+      x: currentColumn * columnXDistance + (currentRow % 2 == 1 ? columnXDistance * 0.5 : 0),
+      y: currentRow * rowYDistance
     };
   }
 
   return {
-    x: colCount * colStep,
-    y: rowCount * rowStep + (colCount % 2 == 1 ? rowStep * 0.5 : 0)
+    x: currentColumn * columnXDistance,
+    y: currentRow * rowYDistance + (currentColumn % 2 == 1 ? rowYDistance * 0.5 : 0)
   };
 }
 
