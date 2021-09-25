@@ -8,34 +8,23 @@ var IsAHexagonSelected = function (selection) {
   return selection[0].pathPoints.length === 6;
 };
 
-var warnUserNothingSelected = function () {
-    var text = doc.textFrames.add();
-    text.move(doc, ElementPlacement.PLACEATBEGINNING);
-    text.contents =
-      "Select only one shape.";
-    text.left = 40;
-    text.top = -100;
-    text.textRange.characterAttributes.size = 30;
-}
-
-var warnUserNotHexagon = function () {
+var warnUser = function (message) {
   var text = doc.textFrames.add();
   text.move(doc, ElementPlacement.PLACEATBEGINNING);
-  text.contents =
-    "The selected shape is not a hexagon";
+  text.contents = message;
   text.left = 40;
   text.top = -100;
   text.textRange.characterAttributes.size = 30;
-};
+}
 
 var makeHexGrid = function () {
   if (!IsSingleItemSelected(doc.selection)) {
-    warnUserNothingSelected()
+    warnUser("Select exactly one path");
     return
   }
 
   if (!IsAHexagonSelected(doc.selection)) {
-    warnUserNotHexagon();
+    warnUser("The selected shape is not a hexagon");
     return;
   }
 
