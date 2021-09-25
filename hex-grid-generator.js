@@ -12,10 +12,16 @@ function makeHexGrid() {
   }
 
   var hex = doc.selection[0];
-  var hexHeight = hex.height / 2;
-  var hexWidth = hex.width / 2;
-  var orientation = "horizontal";
 
+  var measurements = {
+    height: hex.height / 2,
+    width: hex.width / 2,
+  }
+  
+  var hexHeight = measurements.height;
+  var hexWidth = measurements.width;
+  
+  var orientation = "horizontal";
   if (hexHeight > hexWidth) {
     orientation = "vertical";
   }
