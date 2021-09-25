@@ -15,12 +15,12 @@ var warnUser = function (message) {
   text.left = 40;
   text.top = -100;
   text.textRange.characterAttributes.size = 30;
-}
+};
 
 var makeHexGrid = function () {
   if (!IsSingleItemSelected(doc.selection)) {
     warnUser("Select exactly one path");
-    return
+    return;
   }
 
   if (!IsAHexagonSelected(doc.selection)) {
