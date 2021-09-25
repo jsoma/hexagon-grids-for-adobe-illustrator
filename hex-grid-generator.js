@@ -85,23 +85,32 @@ var makeHexGrid = function () {
 };
 
 makeHexGrid();
+
 function createNewHex(hex, orientation, colCount, colStep, rowCount, rowStep) {
   var added = hex.duplicate();
-  added.fillColor = hex.fillColor;
-  added.strokeColor = hex.strokeColor;
-  added.opacity = 75.0;
-  added.strokeWidth = 0.5;
+  setPropertiesOfNewHex(added, hex);
+  ifOrientation(orientation, added, colCount, colStep, rowCount, rowStep);
+  return added;
+}
+
+function ifOrientation(orientation, added, colCount, colStep, rowCount, rowStep) {
   if (orientation == "vertical") {
     added.translate(
       colCount * colStep + (rowCount % 2 == 1 ? colStep * 0.5 : 0),
       rowCount * rowStep
     );
-  } else {
-    added.translate(
-      colCount * colStep,
-      rowCount * rowStep + (colCount % 2 == 1 ? rowStep * 0.5 : 0)
-    );
   }
-  return added;
+
+  added.translate(
+    colCount * colStep,
+    rowCount * rowStep + (colCount % 2 == 1 ? rowStep * 0.5 : 0)
+  );
+}
+
+function setPropertiesOfNewHex(added, hex) {
+  added.fillColor = hex.fillColor;
+  added.strokeColor = hex.strokeColor;
+  added.opacity = hex.opacity
+  added.strokeWidth = hex.strokeWidth;
 }
 
