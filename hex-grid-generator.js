@@ -1,22 +1,5 @@
 var doc = app.activeDocument;
 
-function IsSingleItemSelected(selection) {
-  return selection.length === 1;
-}
-
-function IsAHexagonSelected(selection) {
-  return selection[0].pathPoints.length === 6;
-}
-
-function warnUser(message) {
-  var text = doc.textFrames.add();
-  text.move(doc, ElementPlacement.PLACEATBEGINNING);
-  text.contents = message;
-  text.left = 40;
-  text.top = -100;
-  text.textRange.characterAttributes.size = 30;
-}
-
 function makeHexGrid() {
   if (!IsSingleItemSelected(doc.selection)) {
     warnUser("Select exactly one path");
@@ -81,6 +64,23 @@ function makeHexGrid() {
   }
   // Remove the original hexagon
   hex.remove();
+}
+
+function IsSingleItemSelected(selection) {
+  return selection.length === 1;
+}
+
+function IsAHexagonSelected(selection) {
+  return selection[0].pathPoints.length === 6;
+}
+
+function warnUser(message) {
+  var text = doc.textFrames.add();
+  text.move(doc, ElementPlacement.PLACEATBEGINNING);
+  text.contents = message;
+  text.left = 40;
+  text.top = -100;
+  text.textRange.characterAttributes.size = 30;
 }
 
 function createNewHex(hex, orientation, colCount, colStep, rowCount, rowStep) {
