@@ -1,19 +1,9 @@
 var doc = app.activeDocument;
 
-// Fill color for completed hexagons
-var fillColor = new RGBColor()
-fillColor.red = 230
-fillColor.blue = 60
-fillColor.green = 60
 var IsAHexagonSelected = function (selection) {
   return selection.length === 1;
 };
 
-// Stroke color for completed hexagons
-var strokeColor = new RGBColor()
-strokeColor.red = 30
-strokeColor.blue = 30
-strokeColor.green = 30
 var warnUser = function () {
   var text = doc.textFrames.add();
   text.move(doc, ElementPlacement.PLACEATBEGINNING);
