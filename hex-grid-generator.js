@@ -44,7 +44,7 @@ function makeHexGrid() {
   var tooFarDown = false;
   var previouslyTooFarRight = false;
 
-  hex.translate(-hex.left - measurements.width, -hex.top + measurements.height);
+  moveHexToTopLeftCorner(hex, measurements);
 
   for (var colCount = 0; colCount <= cols; colCount++) {
     for (var rowCount = 0; rowCount <= rows; rowCount++) {
@@ -70,6 +70,10 @@ function makeHexGrid() {
   }
   // Remove the original hexagon
   hex.remove();
+}
+
+function moveHexToTopLeftCorner(hex, measurements) {
+  hex.translate(-hex.left - measurements.width, -hex.top + measurements.height);
 }
 
 function getOrientation(hexHeight, hexWidth) {
@@ -100,11 +104,11 @@ function warnUser(message) {
 function createNewHex(hex, orientation, colCount, colStep, rowCount, rowStep) {
   var added = hex.duplicate();
   setPropertiesOfNewHex(added, hex);
-  ifOrientation(orientation, added, colCount, colStep, rowCount, rowStep);
+  translateHex(orientation, added, colCount, colStep, rowCount, rowStep);
   return added;
 }
 
-function ifOrientation(orientation, added, colCount, colStep, rowCount, rowStep) {
+function translateHex(orientation, added, colCount, colStep, rowCount, rowStep) {
   if (orientation == "vertical") {
     added.translate(
       colCount * colStep + (rowCount % 2 == 1 ? colStep * 0.5 : 0),
