@@ -49,7 +49,8 @@ function makeHexGrid() {
   for (var colCount = 0; colCount <= cols; colCount++) {
     for (var rowCount = 0; rowCount <= rows; rowCount++) {
       previouslyTooFarRight = false;
-      var added = createNewHex(hex, orientation, colCount, colStep, rowCount, rowStep);
+      var nextPosition = getNextPosition(orientation, colCount, colStep, rowCount, rowStep);
+      var added = createNewHex(hex, nextPosition);
       // Let's see if it's off of the artboard
       tooFarRight = Math.abs(added.left) > doc.width;
       tooFarDown = Math.abs(added.top) > doc.height;
@@ -101,25 +102,25 @@ function warnUser(message) {
   text.textRange.characterAttributes.size = 30;
 }
 
-function createNewHex(hex, orientation, colCount, colStep, rowCount, rowStep) {
+function createNewHex(hex, nextPosition) {
   var added = hex.duplicate();
   setPropertiesOfNewHex(added, hex);
-  translateHex(orientation, added, colCount, colStep, rowCount, rowStep);
+  added.translate(nextPosition.x, nextPosition.y);
   return added;
 }
 
-function translateHex(orientation, added, colCount, colStep, rowCount, rowStep) {
+function getNextPosition(orientation, colCount, colStep, rowCount, rowStep) {
   if (orientation == "vertical") {
-    added.translate(
-      colCount * colStep + (rowCount % 2 == 1 ? colStep * 0.5 : 0),
-      rowCount * rowStep
-    );
+    return {
+      x: colCount * colStep + (rowCount % 2 == 1 ? colStep * 0.5 : 0),
+      y: rowCount * rowStep
+    };
   }
 
-  added.translate(
-    colCount * colStep,
-    rowCount * rowStep + (colCount % 2 == 1 ? rowStep * 0.5 : 0)
-  );
+  return {
+    x: colCount * colStep,
+    y: rowCount * rowStep + (colCount % 2 == 1 ? rowStep * 0.5 : 0)
+  };
 }
 
 function setPropertiesOfNewHex(added, hex) {
