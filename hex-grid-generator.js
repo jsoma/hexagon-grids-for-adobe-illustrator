@@ -39,12 +39,12 @@ function makeHexGrid() {
     colStep = measurements.size * 1.73 * 2;
   }
 
+  hex.position = [-measurements.width, measurements.height]
+  
   var tooFarRight = false;
   var tooFarDown = false;
   var nextPosition;
-
-  moveHexToTopLeftCorner(hex, measurements);
-
+  
   for (var col = 0; col <= cols; col++) {
     for (var row = 0; row <= rows; row++) {
       nextPosition = getNextPosition(orientation, col, colStep, row, rowStep);
@@ -80,10 +80,6 @@ function warnUser(message) {
   text.left = 40;
   text.top = -100;
   text.textRange.characterAttributes.size = 30;
-}
-
-function moveHexToTopLeftCorner(hex, measurements) {
-  hex.position = [-measurements.width, measurements.height]
 }
 
 function getOrientation(hexHeight, hexWidth) {
