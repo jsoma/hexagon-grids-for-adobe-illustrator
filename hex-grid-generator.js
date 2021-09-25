@@ -57,7 +57,7 @@ var makeHexGrid = function () {
   var offset = 1.73 * -size * 2;
 
   var tooFarRight = false;
-  var tooFatDown = false;
+  var tooFarDown = false;
   var previouslyTooFarRight = false;
 
   for (var colCount = 0; colCount <= cols; colCount++) {
