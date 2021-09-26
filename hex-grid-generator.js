@@ -19,23 +19,16 @@ function makeHexGrid() {
 
   var rows = docMeasurements.rows
   var cols = docMeasurements.columns
-  
-  var rowStep, colStep;
 
-  if (orientation == "vertical") {
-    rowStep = -measurements.size * 1.5 * 2;
-    colStep = measurements.size * 1.73 * 2;
-  } else {
-    rowStep = -measurements.size * 2 * 2;
-    colStep = measurements.size * 1.73 * 2;
-  }
+  var rowStep = getRowStep(orientation, measurements.size);
+  var colStep = getColStep(orientation, measurements.size);
 
   hex.position = [-measurements.width, measurements.height]
-  
+
   var tooFarRight = false;
   var tooFarDown = false;
   var nextPosition;
-  
+
   for (var col = 0; col <= cols; col++) {
     for (var row = 0; row <= rows; row++) {
       nextPosition = getNextPosition(orientation, col, colStep, row, rowStep);
@@ -94,6 +87,20 @@ function getOrientation(hexHeight, hexWidth) {
     orientation = "vertical";
   }
   return orientation;
+}
+
+function getRowStep(orientation, size) {
+  if (orientation == "vertical") {
+    return -size * 1.5 * 2;
+  }
+  return -size * 2 * 2;
+}
+
+function getColStep(orientation, size) {
+  if (orientation == "vertical") {
+    return size * 1.73 * 2;
+  }
+  return size * 1.73 * 2;
 }
 
 function createNewHex(hex, nextPosition) {
