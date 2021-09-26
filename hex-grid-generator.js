@@ -20,9 +20,6 @@ function makeHexGrid() {
   var rows = docMeasurements.rows
   var cols = docMeasurements.columns
 
-  var rowStep = getRowStep(orientation, measurements.size);
-  var colStep = getColStep(orientation, measurements.size);
-
   hex.position = [-measurements.width, measurements.height]
 
   var tooFarRight = false;
@@ -31,7 +28,7 @@ function makeHexGrid() {
 
   for (var col = 0; col <= cols; col++) {
     for (var row = 0; row <= rows; row++) {
-      nextPosition = getNextPosition(orientation, col, colStep, row, rowStep);
+      nextPosition = getNextPosition(orientation, measurements, col, row);
       tooFarRight = Math.abs(nextPosition.x) > doc.width;
       tooFarDown = Math.abs(nextPosition.y) > doc.height;
 
@@ -47,6 +44,12 @@ function makeHexGrid() {
   }
 
   hex.remove();
+}
+
+function createNewHex(hex, nextPosition) {
+  var added = hex.duplicate();
+  added.translate(nextPosition.x, nextPosition.y);
+  return added;
 }
 
 function getDocumentMeasurements(measurements) {
@@ -103,13 +106,12 @@ function getColStep(orientation, size) {
   return size * 1.73 * 2;
 }
 
-function createNewHex(hex, nextPosition) {
-  var added = hex.duplicate();
-  added.translate(nextPosition.x, nextPosition.y);
-  return added;
-}
 
-function getNextPosition(orientation, currentColumn, columnXDistance, currentRow, rowYDistance) {
+
+function getNextPosition(orientation, measurements, currentColumn, currentRow) {
+  var columnXDistance = getColStep(orientation, measurements.size);
+  var rowYDistance = getRowStep(orientation, measurements.size);
+
   if (orientation == "vertical") {
     return {
       x: currentColumn * columnXDistance + (currentRow % 2 == 1 ? columnXDistance * 0.5 : 0),
