@@ -26,16 +26,18 @@ function getRowStep(isVertical, hex) {
 }
 
 function getNextPosition(isVertical, rowStep, colStep, currentColumn, currentRow) {
+  var xPosition = currentColumn * colStep
+  var yPosition = currentRow * -rowStep
   if (isVertical) {
     return {
-      x: currentColumn * colStep + (currentRow % 2 == 1 ? colStep * 0.5 : 0),
-      y: currentRow * -rowStep,
+      x: xPosition + (currentRow % 2 == 1 && colStep * 0.5),
+      y: yPosition,
     };
   }
 
   return {
-    x: currentColumn * colStep,
-    y: currentRow * -rowStep + (currentColumn % 2 == 1 ? -rowStep * 0.5 : 0),
+    x: xPosition,
+    y: yPosition + (currentColumn % 2 == 1 && -rowStep * 0.5),
   };
 }
 
