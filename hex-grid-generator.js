@@ -13,15 +13,16 @@ function makeHexGrid() {
 
   var hex = doc.selection[0];
 
-  var measurements = getHexMeasurements(hex)
-  var docMeasurements = getDocumentMeasurements(measurements)
-  var isVertical = measurements.height > measurements.width
+  var isVertical = hex.height > hex.width
 
-  hex.position = [-measurements.width / 2, measurements.height / 2]
+  var rowCount = doc.height / (isVertical ? hex.height * 0.75 : hex.height)
+  var columnCount = doc.width / (isVertical ? hex.width : hex.width * 0.75)
 
-  for (var col = 0; col <= docMeasurements.columns; col++) {
-    for (var row = 0; row <= docMeasurements.rows; row++) {
-      var nextPosition = getNextPosition(isVertical, measurements, col, row);
+  hex.position = [-hex.width / 2, hex.height / 2]
+
+  for (var col = 0; col <= columnCount; col++) {
+    for (var row = 0; row <= rowCount; row++) {
+      var nextPosition = getNextPosition(isVertical, hex, col, row);
       createNewHex(hex, nextPosition);
     }
   }
@@ -33,21 +34,6 @@ function createNewHex(hex, nextPosition) {
   var added = hex.duplicate();
   added.translate(nextPosition.x, nextPosition.y);
   return added;
-}
-
-function getDocumentMeasurements(measurements) {
-  return {
-    rows: doc.height / measurements.size,
-    columns: doc.width / (measurements.width * 0.75)
-  };
-}
-
-function getHexMeasurements(hex) {
-  return {
-    height: hex.height,
-    width: hex.width,
-    size: hex.height,
-  };
 }
 
 function IsSingleItemSelected(selection) {
@@ -67,17 +53,17 @@ function warnUser(message) {
   text.textRange.characterAttributes.size = 30;
 }
 
-function getRowStep(isVertical, measurements) {
-  return isVertical ? -measurements.height * 0.75 : -measurements.width;
+function getRowStep(isVertical, hex) {
+  return isVertical ? -hex.height * 0.75 : -hex.height;
 }
 
-function getColStep(isVertical, measurements) {
-  return isVertical ? measurements.width : measurements.width * 0.75;
+function getColStep(isVertical, hex) {
+  return isVertical ? hex.width : hex.width * 0.75;
 }
 
-function getNextPosition(isVertical, measurements, currentColumn, currentRow) {
-  var columnXDistance = getColStep(isVertical, measurements);
-  var rowYDistance = getRowStep(isVertical, measurements);
+function getNextPosition(isVertical, hex, currentColumn, currentRow) {
+  var columnXDistance = getColStep(isVertical, hex);
+  var rowYDistance = getRowStep(isVertical, hex);
 
   if (isVertical) {
     return {
