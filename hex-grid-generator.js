@@ -62,9 +62,10 @@ function makeHexGrid() {
   var hex = doc.selection[0];
 
   var isVertical = hex.height > hex.width
-
-  var rowCount = doc.height / getRowStep(isVertical, hex)
-  var columnCount = doc.width / getColStep(isVertical, hex)
+  var rowStep = getRowStep(isVertical, hex)
+  var colStep = getColStep(isVertical, hex)
+  var rowCount = doc.height / rowStep
+  var columnCount = doc.width / colStep
 
   hex.position = [-hex.width / 2, hex.height / 2]
 
