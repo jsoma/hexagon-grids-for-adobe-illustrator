@@ -31,18 +31,14 @@ function getNextPosition(isVertical, hex, currentColumn, currentRow) {
 
   if (isVertical) {
     return {
-      x:
-        currentColumn * columnXDistance +
-        (currentRow % 2 == 1 ? columnXDistance * 0.5 : 0),
+      x: currentColumn * columnXDistance + (currentRow % 2 == 1 ? columnXDistance * 0.5 : 0),
       y: currentRow * rowYDistance,
     };
   }
 
   return {
     x: currentColumn * columnXDistance,
-    y:
-      currentRow * rowYDistance +
-      (currentColumn % 2 == 1 ? rowYDistance * 0.5 : 0),
+    y: currentRow * rowYDistance + (currentColumn % 2 == 1 ? rowYDistance * 0.5 : 0),
   };
 }
 
