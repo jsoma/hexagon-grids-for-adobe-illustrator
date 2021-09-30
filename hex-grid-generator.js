@@ -22,7 +22,7 @@ function getColStep(isVertical, hex) {
 }
 
 function getRowStep(isVertical, hex) {
-  return isVertical ? -hex.height * 0.75 : -hex.height;
+  return isVertical ? hex.height * 0.75 : hex.height;
 }
 
 function getNextPosition(isVertical, hex, currentColumn, currentRow) {
@@ -32,13 +32,13 @@ function getNextPosition(isVertical, hex, currentColumn, currentRow) {
   if (isVertical) {
     return {
       x: currentColumn * columnXDistance + (currentRow % 2 == 1 ? columnXDistance * 0.5 : 0),
-      y: currentRow * rowYDistance,
+      y: currentRow * -rowYDistance,
     };
   }
 
   return {
     x: currentColumn * columnXDistance,
-    y: currentRow * rowYDistance + (currentColumn % 2 == 1 ? rowYDistance * 0.5 : 0),
+    y: currentRow * -rowYDistance + (currentColumn % 2 == 1 ? -rowYDistance * 0.5 : 0),
   };
 }
 
@@ -63,8 +63,8 @@ function makeHexGrid() {
 
   var isVertical = hex.height > hex.width
 
-  var rowCount = doc.height / (isVertical ? hex.height * 0.75 : hex.height)
-  var columnCount = doc.width / (isVertical ? hex.width : hex.width * 0.75)
+  var rowCount = doc.height / getRowStep(isVertical, hex)
+  var columnCount = doc.width / getColStep(isVertical, hex)
 
   hex.position = [-hex.width / 2, hex.height / 2]
 
