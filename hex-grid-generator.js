@@ -67,21 +67,21 @@ function warnUser(message) {
   text.textRange.characterAttributes.size = 30;
 }
 
-function getRowStep(orientation, size) {
-  return -size;
+function getRowStep(isVertical, measurements) {
+  return isVertical ? -measurements.height * 0.75 : -measurements.width;
 }
 
-function getColStep(orientation, width) {
-  return width * 0.75
+function getColStep(isVertical, measurements) {
+  return isVertical ? measurements.width : measurements.width * 0.75;
 }
 
 function getNextPosition(isVertical, measurements, currentColumn, currentRow) {
-  var columnXDistance = getColStep(isVertical, measurements.width);
-  var rowYDistance = getRowStep(isVertical, measurements.size);
+  var columnXDistance = getColStep(isVertical, measurements);
+  var rowYDistance = getRowStep(isVertical, measurements);
 
   if (isVertical) {
     return {
-      x: currentColumn * columnXDistance + (currentRow % 2 == 1 ? columnXDistance : 0),
+      x: currentColumn * columnXDistance + (currentRow % 2 == 1 ? columnXDistance * 0.5 : 0),
       y: currentRow * rowYDistance
     };
   }
