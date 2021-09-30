@@ -1,5 +1,57 @@
 var doc = app.activeDocument;
 
+function IsSingleItemSelected(selection) {
+  return selection.length === 1;
+}
+
+function IsAHexagonSelected(selection) {
+  return selection[0].pathPoints.length === 6;
+}
+
+function warnUser(message) {
+  var text = doc.textFrames.add();
+  text.move(doc, ElementPlacement.PLACEATBEGINNING);
+  text.contents = message;
+  text.left = 40;
+  text.top = -100;
+  text.textRange.characterAttributes.size = 30;
+}
+
+function getColStep(isVertical, hex) {
+  return isVertical ? hex.width : hex.width * 0.75;
+}
+
+function getRowStep(isVertical, hex) {
+  return isVertical ? -hex.height * 0.75 : -hex.height;
+}
+
+function getNextPosition(isVertical, hex, currentColumn, currentRow) {
+  var columnXDistance = getColStep(isVertical, hex);
+  var rowYDistance = getRowStep(isVertical, hex);
+
+  if (isVertical) {
+    return {
+      x:
+        currentColumn * columnXDistance +
+        (currentRow % 2 == 1 ? columnXDistance * 0.5 : 0),
+      y: currentRow * rowYDistance,
+    };
+  }
+
+  return {
+    x: currentColumn * columnXDistance,
+    y:
+      currentRow * rowYDistance +
+      (currentColumn % 2 == 1 ? rowYDistance * 0.5 : 0),
+  };
+}
+
+function createNewHex(hex, nextPosition) {
+  var added = hex.duplicate();
+  added.translate(nextPosition.x, nextPosition.y);
+  return added;
+}
+
 function makeHexGrid() {
   if (!IsSingleItemSelected(doc.selection)) {
     warnUser("Select exactly one path");
@@ -28,54 +80,6 @@ function makeHexGrid() {
   }
 
   hex.remove();
-}
-
-function createNewHex(hex, nextPosition) {
-  var added = hex.duplicate();
-  added.translate(nextPosition.x, nextPosition.y);
-  return added;
-}
-
-function IsSingleItemSelected(selection) {
-  return selection.length === 1;
-}
-
-function IsAHexagonSelected(selection) {
-  return selection[0].pathPoints.length === 6;
-}
-
-function warnUser(message) {
-  var text = doc.textFrames.add();
-  text.move(doc, ElementPlacement.PLACEATBEGINNING);
-  text.contents = message;
-  text.left = 40;
-  text.top = -100;
-  text.textRange.characterAttributes.size = 30;
-}
-
-function getRowStep(isVertical, hex) {
-  return isVertical ? -hex.height * 0.75 : -hex.height;
-}
-
-function getColStep(isVertical, hex) {
-  return isVertical ? hex.width : hex.width * 0.75;
-}
-
-function getNextPosition(isVertical, hex, currentColumn, currentRow) {
-  var columnXDistance = getColStep(isVertical, hex);
-  var rowYDistance = getRowStep(isVertical, hex);
-
-  if (isVertical) {
-    return {
-      x: currentColumn * columnXDistance + (currentRow % 2 == 1 ? columnXDistance * 0.5 : 0),
-      y: currentRow * rowYDistance
-    };
-  }
-
-  return {
-    x: currentColumn * columnXDistance,
-    y: currentRow * rowYDistance + (currentColumn % 2 == 1 ? rowYDistance * 0.5 : 0)
-  };
 }
 
 makeHexGrid();
