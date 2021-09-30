@@ -28,16 +28,9 @@ function getRowStep(isVertical, hex) {
 function getNextPosition(isVertical, rowStep, colStep, currentColumn, currentRow) {
   var xPosition = currentColumn * colStep
   var yPosition = currentRow * -rowStep
-  if (isVertical) {
-    return {
-      x: xPosition + (currentRow % 2 == 1 && colStep * 0.5),
-      y: yPosition,
-    };
-  }
-
   return {
-    x: xPosition,
-    y: yPosition + (currentColumn % 2 == 1 && -rowStep * 0.5),
+    x: xPosition + (isVertical && currentRow % 2 == 1 && colStep * 0.5),
+    y: yPosition + (!isVertical && currentColumn % 2 == 1 && -rowStep * 0.5),
   };
 }
 
@@ -45,6 +38,15 @@ function createNewHex(hex, nextPosition) {
   var added = hex.duplicate();
   added.translate(nextPosition.x, nextPosition.y);
   return added;
+}
+
+function generateHexagons (columnCount, rowCount, isVertical, rowStep, colStep, hex) {
+  for (var col = 0; col <= columnCount; col++) {
+    for (var row = 0; row <= rowCount; row++) {
+      var nextPosition = getNextPosition(isVertical, rowStep, colStep, col, row);
+      createNewHex(hex, nextPosition);
+    }
+  }
 }
 
 function makeHexGrid() {
@@ -59,21 +61,14 @@ function makeHexGrid() {
   }
 
   var hex = doc.selection[0];
-
+  hex.position = [-hex.width / 2, hex.height / 2];
   var isVertical = hex.height > hex.width
   var rowStep = getRowStep(isVertical, hex)
   var colStep = getColStep(isVertical, hex)
   var rowCount = doc.height / rowStep
   var columnCount = doc.width / colStep
 
-  hex.position = [-hex.width / 2, hex.height / 2]
-
-  for (var col = 0; col <= columnCount; col++) {
-    for (var row = 0; row <= rowCount; row++) {
-      var nextPosition = getNextPosition(isVertical, rowStep, colStep, col, row);
-      createNewHex(hex, nextPosition);
-    }
-  }
+  generateHexagons(columnCount, rowCount, isVertical, rowStep, colStep, hex);
 
   hex.remove();
 }
