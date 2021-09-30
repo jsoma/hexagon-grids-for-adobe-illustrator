@@ -25,12 +25,20 @@ function getRowStep(isVertical, hex) {
   return isVertical ? hex.height * 0.75 : hex.height;
 }
 
+function getYOffset(isVertical, currentColumn, rowStep) {
+  return !isVertical && currentColumn % 2 == 1 && -rowStep * 0.5;
+}
+
+function getXOffset(isVertical, currentRow, colStep) {
+  return isVertical && currentRow % 2 == 1 && colStep * 0.5;
+}
+
 function getNextPosition(isVertical, rowStep, colStep, currentColumn, currentRow) {
   var xPosition = currentColumn * colStep
   var yPosition = currentRow * -rowStep
   return {
-    x: xPosition + (isVertical && currentRow % 2 == 1 && colStep * 0.5),
-    y: yPosition + (!isVertical && currentColumn % 2 == 1 && -rowStep * 0.5),
+    x: xPosition + getXOffset(isVertical, currentRow, colStep),
+    y: yPosition + getYOffset(isVertical, currentColumn, rowStep),
   };
 }
 
