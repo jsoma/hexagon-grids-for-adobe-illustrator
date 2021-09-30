@@ -17,16 +17,11 @@ function makeHexGrid() {
   var docMeasurements = getDocumentMeasurements(measurements)
   var orientation = getOrientation(measurements.height, measurements.width);
 
-  var rows = docMeasurements.rows
-  var cols = docMeasurements.columns
-
   hex.position = [-measurements.width / 2, measurements.height / 2]
 
-  var nextPosition;
-
-  for (var col = 0; col <= cols; col++) {
-    for (var row = 0; row <= rows; row++) {
-      nextPosition = getNextPosition(orientation, measurements, col, row);
+  for (var col = 0; col <= docMeasurements.columns; col++) {
+    for (var row = 0; row <= docMeasurements.rows; row++) {
+      var nextPosition = getNextPosition(orientation, measurements, col, row);
       createNewHex(hex, nextPosition);
     }
   }
