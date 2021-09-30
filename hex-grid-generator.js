@@ -15,13 +15,13 @@ function makeHexGrid() {
 
   var measurements = getHexMeasurements(hex)
   var docMeasurements = getDocumentMeasurements(measurements)
-  var orientation = getOrientation(measurements.height, measurements.width);
+  var isVertical = measurements.height > measurements.width
 
   hex.position = [-measurements.width / 2, measurements.height / 2]
 
   for (var col = 0; col <= docMeasurements.columns; col++) {
     for (var row = 0; row <= docMeasurements.rows; row++) {
-      var nextPosition = getNextPosition(orientation, measurements, col, row);
+      var nextPosition = getNextPosition(isVertical, measurements, col, row);
       createNewHex(hex, nextPosition);
     }
   }
@@ -67,14 +67,6 @@ function warnUser(message) {
   text.textRange.characterAttributes.size = 30;
 }
 
-function getOrientation(hexHeight, hexWidth) {
-  var orientation = "horizontal";
-  if (hexHeight > hexWidth) {
-    orientation = "vertical";
-  }
-  return orientation;
-}
-
 function getRowStep(orientation, size) {
   return -size;
 }
@@ -83,11 +75,11 @@ function getColStep(orientation, width) {
   return width * 0.75
 }
 
-function getNextPosition(orientation, measurements, currentColumn, currentRow) {
-  var columnXDistance = getColStep(orientation, measurements.width);
-  var rowYDistance = getRowStep(orientation, measurements.size);
+function getNextPosition(isVertical, measurements, currentColumn, currentRow) {
+  var columnXDistance = getColStep(isVertical, measurements.width);
+  var rowYDistance = getRowStep(isVertical, measurements.size);
 
-  if (orientation == "vertical") {
+  if (isVertical) {
     return {
       x: currentColumn * columnXDistance + (currentRow % 2 == 1 ? columnXDistance : 0),
       y: currentRow * rowYDistance
