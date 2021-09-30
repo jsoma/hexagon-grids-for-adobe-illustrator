@@ -20,26 +20,14 @@ function makeHexGrid() {
   var rows = docMeasurements.rows
   var cols = docMeasurements.columns
 
-  hex.position = [-measurements.width, measurements.height]
+  hex.position = [-measurements.width / 2, measurements.height / 2]
 
-  var tooFarRight = false;
-  var tooFarDown = false;
   var nextPosition;
 
   for (var col = 0; col <= cols; col++) {
     for (var row = 0; row <= rows; row++) {
       nextPosition = getNextPosition(orientation, measurements, col, row);
-      tooFarRight = Math.abs(nextPosition.x) > doc.width;
-      tooFarDown = Math.abs(nextPosition.y) > doc.height;
-
       createNewHex(hex, nextPosition);
-
-      if (tooFarDown) {
-        break;
-      }
-    }
-    if (tooFarRight) {
-      break;
     }
   }
 
@@ -55,15 +43,15 @@ function createNewHex(hex, nextPosition) {
 function getDocumentMeasurements(measurements) {
   return {
     rows: doc.height / measurements.size,
-    columns: doc.width / (measurements.size * 3)
+    columns: doc.width / (measurements.width * 0.75)
   };
 }
 
 function getHexMeasurements(hex) {
   return {
-    height: hex.height / 2,
-    width: hex.width / 2,
-    size: hex.height / 4,
+    height: hex.height,
+    width: hex.width,
+    size: hex.height,
   };
 }
 
@@ -93,28 +81,20 @@ function getOrientation(hexHeight, hexWidth) {
 }
 
 function getRowStep(orientation, size) {
-  if (orientation == "vertical") {
-    return -size * 1.5 * 2;
-  }
-  return -size * 2 * 2;
+  return -size;
 }
 
-function getColStep(orientation, size) {
-  if (orientation == "vertical") {
-    return size * 1.73 * 2;
-  }
-  return size * 1.73 * 2;
+function getColStep(orientation, width) {
+  return width * 0.75
 }
-
-
 
 function getNextPosition(orientation, measurements, currentColumn, currentRow) {
-  var columnXDistance = getColStep(orientation, measurements.size);
+  var columnXDistance = getColStep(orientation, measurements.width);
   var rowYDistance = getRowStep(orientation, measurements.size);
 
   if (orientation == "vertical") {
     return {
-      x: currentColumn * columnXDistance + (currentRow % 2 == 1 ? columnXDistance * 0.5 : 0),
+      x: currentColumn * columnXDistance + (currentRow % 2 == 1 ? columnXDistance : 0),
       y: currentRow * rowYDistance
     };
   }
