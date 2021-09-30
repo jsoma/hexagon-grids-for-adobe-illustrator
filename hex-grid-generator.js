@@ -25,20 +25,17 @@ function getRowStep(isVertical, hex) {
   return isVertical ? hex.height * 0.75 : hex.height;
 }
 
-function getNextPosition(isVertical, hex, currentColumn, currentRow) {
-  var columnXDistance = getColStep(isVertical, hex);
-  var rowYDistance = getRowStep(isVertical, hex);
-
+function getNextPosition(isVertical, rowStep, colStep, currentColumn, currentRow) {
   if (isVertical) {
     return {
-      x: currentColumn * columnXDistance + (currentRow % 2 == 1 ? columnXDistance * 0.5 : 0),
-      y: currentRow * -rowYDistance,
+      x: currentColumn * colStep + (currentRow % 2 == 1 ? colStep * 0.5 : 0),
+      y: currentRow * -rowStep,
     };
   }
 
   return {
-    x: currentColumn * columnXDistance,
-    y: currentRow * -rowYDistance + (currentColumn % 2 == 1 ? -rowYDistance * 0.5 : 0),
+    x: currentColumn * colStep,
+    y: currentRow * -rowStep + (currentColumn % 2 == 1 ? -rowStep * 0.5 : 0),
   };
 }
 
@@ -71,7 +68,7 @@ function makeHexGrid() {
 
   for (var col = 0; col <= columnCount; col++) {
     for (var row = 0; row <= rowCount; row++) {
-      var nextPosition = getNextPosition(isVertical, hex, col, row);
+      var nextPosition = getNextPosition(isVertical, rowStep, colStep, col, row);
       createNewHex(hex, nextPosition);
     }
   }
